@@ -1,419 +1,522 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Excel Stopping Distance Curve Fit</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent: #2563eb;
-      --accent-dark: #1d4ed8;
-      --soft: #eff6ff;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 25.2.3.2 (Linux)"/>
+	<meta name="created" content="2025-02-07T16:18:24Z"/>
+	<meta name="changed" content="2025-02-07T17:53:10Z"/>
+	
+	<style type="text/css">
+		body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Aptos Narrow"; font-size:small }
+		a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  } 
+		a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  } 
+		comment { display:none;  } 
+	</style>
+	
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-    }
-
-    header {
-      padding: 48px 20px 28px;
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-      color: white;
-    }
-
-    .wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(2rem, 4vw, 3.6rem);
-      line-height: 1.05;
-    }
-
-    h2, h3 { margin-top: 0; }
-
-    .lead {
-      max-width: 820px;
-      margin: 0;
-      color: #dbeafe;
-      font-size: 1.08rem;
-    }
-
-    main {
-      padding: 28px 20px 48px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    label {
-      display: block;
-      font-weight: 700;
-      margin: 14px 0 6px;
-    }
-
-    select, input {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      font-size: 1rem;
-      background: white;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 16px;
-      padding: 12px 14px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--accent);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    button:hover { background: var(--accent-dark); }
-
-    .result {
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 14px;
-      background: var(--soft);
-      border: 1px solid #bfdbfe;
-    }
-
-    .result strong {
-      display: block;
-      font-size: 1.8rem;
-      line-height: 1.15;
-      margin-top: 4px;
-    }
-
-    .muted { color: var(--muted); }
-
-    canvas {
-      width: 100%;
-      min-height: 420px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: white;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      margin-top: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-
-    th, td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--line);
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    th:first-child, td:first-child { text-align: left; }
-    th { background: #f1f5f9; }
-
-    .notes {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .note {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-    }
-
-    code {
-      background: #f1f5f9;
-      padding: 2px 5px;
-      border-radius: 6px;
-    }
-
-    @media (max-width: 860px) {
-      .grid, .notes { grid-template-columns: 1fr; }
-      canvas { min-height: 320px; }
-    }
-  </style>
+<style>
+:root{font-family:Arial, Helvetica, sans-serif;color:#111827;background:#f8fafc;}
+body{margin:0;padding:24px;background:#f8fafc;}
+.portfolio-shell{max-width:1200px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(15,23,42,.06);overflow:auto;}
+table{border-collapse:collapse;max-width:100%;}
+td,th{padding:4px 6px;line-height:1.35;}
+img{max-width:100%;height:auto;}
+@media(max-width:700px){body{padding:10px}.portfolio-shell{padding:10px;border-radius:12px;font-size:12px}td,th{padding:3px 4px}}
+</style>
 </head>
+
 <body>
-  <header>
-    <div class="wrap">
-      <h1>Excel Stopping Distance Curve Fit</h1>
-      <p class="lead">Interactive browser version of an Excel measurement-analysis worksheet. The tool compares vehicle stopping distances across road surfaces and estimates stopping distance using polynomial curve fitting.</p>
-    </div>
-  </header>
-
-  <main>
-    <div class="wrap grid">
-      <section class="card">
-        <h2>Inputs</h2>
-        <p class="muted">The primary assignment analysis focuses on wet road conditions. Other surfaces are included as an interactive extension.</p>
-
-        <label for="surface">Road surface</label>
-        <select id="surface">
-          <option value="Wet" selected>Wet / Märkä</option>
-          <option value="Dry">Dry / Kuiva</option>
-          <option value="Snowy">Snowy / Luminen</option>
-          <option value="Icy">Icy / Jäinen</option>
-        </select>
-
-        <label for="speed">Prediction speed (km/h)</label>
-        <input id="speed" type="number" value="150" min="1" step="1" />
-
-        <button id="calculate">Calculate prediction</button>
-
-        <div class="result" aria-live="polite">
-          <span class="muted">Estimated stopping distance</span>
-          <strong id="prediction">—</strong>
-          <span id="equation" class="muted"></span>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Curve fit chart</h2>
-        <canvas id="chart" width="900" height="460"></canvas>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Speed (km/h)</th>
-                <th>Reaction distance (m)</th>
-                <th>Braking distance (m)</th>
-                <th>Stopping distance (m)</th>
-              </tr>
-            </thead>
-            <tbody id="dataRows"></tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-
-    <div class="wrap notes">
-      <section class="note">
-        <h3>Formula</h3>
-        <p>Stopping distance is calculated as <code>reaction distance + braking distance</code>.</p>
-      </section>
-      <section class="note">
-        <h3>Curve fitting</h3>
-        <p>The trendline is a second-degree polynomial fitted to measurement points for the selected road surface.</p>
-      </section>
-      <section class="note">
-        <h3>Extrapolation</h3>
-        <p>The 150 km/h result is an extrapolated estimate outside the original 30–120 km/h measurement range.</p>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    const rawData = [
-      { speed: 30, surface: 'Dry', reaction: 8, braking: 4 },
-      { speed: 30, surface: 'Wet', reaction: 8, braking: 6 },
-      { speed: 30, surface: 'Snowy', reaction: 8, braking: 12 },
-      { speed: 30, surface: 'Icy', reaction: 8, braking: 23 },
-      { speed: 40, surface: 'Dry', reaction: 11, braking: 7 },
-      { speed: 40, surface: 'Wet', reaction: 11, braking: 10 },
-      { speed: 40, surface: 'Snowy', reaction: 11, braking: 21 },
-      { speed: 40, surface: 'Icy', reaction: 11, braking: 41 },
-      { speed: 50, surface: 'Dry', reaction: 14, braking: 11 },
-      { speed: 50, surface: 'Wet', reaction: 14, braking: 16 },
-      { speed: 50, surface: 'Snowy', reaction: 14, braking: 32 },
-      { speed: 50, surface: 'Icy', reaction: 14, braking: 64 },
-      { speed: 60, surface: 'Dry', reaction: 17, braking: 15 },
-      { speed: 60, surface: 'Wet', reaction: 17, braking: 23 },
-      { speed: 60, surface: 'Snowy', reaction: 17, braking: 46 },
-      { speed: 60, surface: 'Icy', reaction: 17, braking: 93 },
-      { speed: 80, surface: 'Dry', reaction: 22, braking: 27 },
-      { speed: 80, surface: 'Wet', reaction: 22, braking: 41 },
-      { speed: 80, surface: 'Snowy', reaction: 22, braking: 82 },
-      { speed: 80, surface: 'Icy', reaction: 22, braking: 165 },
-      { speed: 100, surface: 'Dry', reaction: 28, braking: 43 },
-      { speed: 100, surface: 'Wet', reaction: 28, braking: 64 },
-      { speed: 100, surface: 'Snowy', reaction: 28, braking: 129 },
-      { speed: 100, surface: 'Icy', reaction: 28, braking: 257 },
-      { speed: 120, surface: 'Dry', reaction: 33, braking: 62 },
-      { speed: 120, surface: 'Wet', reaction: 33, braking: 93 },
-      { speed: 120, surface: 'Snowy', reaction: 33, braking: 185 },
-      { speed: 120, surface: 'Icy', reaction: 33, braking: 370 }
-    ].map(row => ({ ...row, stopping: row.reaction + row.braking }));
-
-    function fitQuadratic(points) {
-      const sums = points.reduce((acc, p) => {
-        const x = p.speed;
-        const y = p.stopping;
-        acc.n += 1;
-        acc.x += x;
-        acc.x2 += x ** 2;
-        acc.x3 += x ** 3;
-        acc.x4 += x ** 4;
-        acc.y += y;
-        acc.xy += x * y;
-        acc.x2y += (x ** 2) * y;
-        return acc;
-      }, { n: 0, x: 0, x2: 0, x3: 0, x4: 0, y: 0, xy: 0, x2y: 0 });
-
-      const A = [
-        [sums.x4, sums.x3, sums.x2, sums.x2y],
-        [sums.x3, sums.x2, sums.x, sums.xy],
-        [sums.x2, sums.x, sums.n, sums.y]
-      ];
-
-      for (let i = 0; i < 3; i++) {
-        let maxRow = i;
-        for (let k = i + 1; k < 3; k++) {
-          if (Math.abs(A[k][i]) > Math.abs(A[maxRow][i])) maxRow = k;
-        }
-        [A[i], A[maxRow]] = [A[maxRow], A[i]];
-        const pivot = A[i][i];
-        for (let j = i; j < 4; j++) A[i][j] /= pivot;
-        for (let k = 0; k < 3; k++) {
-          if (k === i) continue;
-          const factor = A[k][i];
-          for (let j = i; j < 4; j++) A[k][j] -= factor * A[i][j];
-        }
-      }
-
-      return { a: A[0][3], b: A[1][3], c: A[2][3] };
-    }
-
-    function predict(coeff, x) {
-      return coeff.a * x * x + coeff.b * x + coeff.c;
-    }
-
-    function drawChart(points, coeff, predictionSpeed) {
-      const canvas = document.getElementById('chart');
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const pad = 58;
-      const maxX = Math.max(160, predictionSpeed);
-      const maxY = Math.max(...points.map(p => p.stopping), predict(coeff, maxX)) * 1.12;
-
-      const sx = x => pad + (x / maxX) * (canvas.width - pad * 1.5);
-      const sy = y => canvas.height - pad - (y / maxY) * (canvas.height - pad * 1.6);
-
-      ctx.strokeStyle = '#e5e7eb';
-      ctx.lineWidth = 1;
-      ctx.font = '13px Arial';
-      ctx.fillStyle = '#6b7280';
-
-      for (let i = 0; i <= 5; i++) {
-        const y = (maxY / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(pad, sy(y));
-        ctx.lineTo(canvas.width - pad / 2, sy(y));
-        ctx.stroke();
-        ctx.fillText(Math.round(y).toString(), 12, sy(y) + 4);
-      }
-
-      for (let x = 0; x <= maxX; x += 30) {
-        ctx.beginPath();
-        ctx.moveTo(sx(x), canvas.height - pad);
-        ctx.lineTo(sx(x), canvas.height - pad + 6);
-        ctx.stroke();
-        ctx.fillText(x.toString(), sx(x) - 8, canvas.height - 22);
-      }
-
-      ctx.strokeStyle = '#111827';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(pad, 26);
-      ctx.lineTo(pad, canvas.height - pad);
-      ctx.lineTo(canvas.width - pad / 2, canvas.height - pad);
-      ctx.stroke();
-
-      ctx.fillStyle = '#111827';
-      ctx.fillText('Stopping distance (m)', 12, 20);
-      ctx.fillText('Speed (km/h)', canvas.width - 135, canvas.height - 22);
-
-      ctx.strokeStyle = '#2563eb';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for (let x = 0; x <= maxX; x += 2) {
-        const y = predict(coeff, x);
-        if (x === 0) ctx.moveTo(sx(x), sy(y)); else ctx.lineTo(sx(x), sy(y));
-      }
-      ctx.stroke();
-
-      ctx.fillStyle = '#dc2626';
-      points.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(sx(p.speed), sy(p.stopping), 5, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      const predicted = predict(coeff, predictionSpeed);
-      ctx.fillStyle = '#16a34a';
-      ctx.beginPath();
-      ctx.arc(sx(predictionSpeed), sy(predicted), 6, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillText(`${Math.round(predicted)} m at ${predictionSpeed} km/h`, sx(predictionSpeed) - 95, sy(predicted) - 12);
-    }
-
-    function render() {
-      const surface = document.getElementById('surface').value;
-      const speed = Number(document.getElementById('speed').value || 150);
-      const points = rawData.filter(row => row.surface === surface);
-      const coeff = fitQuadratic(points);
-      const predicted = predict(coeff, speed);
-
-      document.getElementById('prediction').textContent = `${predicted.toFixed(1)} m`;
-      document.getElementById('equation').textContent = `y = ${coeff.a.toFixed(5)}x² + ${coeff.b.toFixed(5)}x + ${coeff.c.toFixed(2)}`;
-
-      const rows = points.map(row => `
-        <tr>
-          <td>${row.speed}</td>
-          <td>${row.reaction}</td>
-          <td>${row.braking}</td>
-          <td>${row.stopping}</td>
-        </tr>
-      `).join('');
-      document.getElementById('dataRows').innerHTML = rows;
-
-      drawChart(points, coeff, speed);
-    }
-
-    document.getElementById('calculate').addEventListener('click', render);
-    document.getElementById('surface').addEventListener('change', render);
-    window.addEventListener('load', render);
-  </script>
+<div class="portfolio-shell">
+<table cellspacing="0" border="0">
+	<colgroup width="72"></colgroup>
+	<colgroup width="114"></colgroup>
+	<colgroup width="85"></colgroup>
+	<colgroup width="150"></colgroup>
+	<colgroup width="140"></colgroup>
+	<colgroup width="164"></colgroup>
+	<colgroup span="13" width="72"></colgroup>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td colspan=7 rowspan=2 align="center" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Mittauspöytäkirja ja käyrän sovitus&quot;}"><font size=6 color="#000000">Mittauspöytäkirja ja käyrän sovitus</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="46" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" sdnum="1033;0;#&quot; &quot;?/?" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Nopeus(KM\/h)&quot;}"><font color="#000000">Nopeus(KM/h)</font></td>
+		<td align="left" sdnum="1033;0;@" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Tien pinta&quot;}"><font color="#000000">Tien pinta</font></td>
+		<td align="left" sdnum="1033;0;0.00" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Reaktioetäisyys (m)&quot;}"><font color="#000000">Reaktioetäisyys (m)</font></td>
+		<td align="left" sdnum="1033;0;0.00" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jarrutusmatka (m)&quot;}"><font color="#000000">Jarrutusmatka (m)</font></td>
+		<td align="left" sdnum="1033;0;0.00" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Pysähtämismatka (m)&quot;}"><font color="#000000">Pysähtämismatka (m)</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="24" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="right" sdval="30" sdnum="1033;"><font color="#000000">30</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="8" sdnum="1033;"><font color="#000000">8</font></td>
+		<td align="right" sdval="4" sdnum="1033;"><font color="#000000">4</font></td>
+		<td align="right" sdval="12" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">12</font></td>
+		<td colspan=13 rowspan=25 align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br><img src="assets/chart-1.png" width=873 height=571 hspace=37 vspace=25>
+		</font></td>
+		</tr>
+	<tr>
+		<td rowspan=16 height="382" align="center" valign=middle bgcolor="#F7C7AC" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Taajamanopeus&quot;}"><font size=6 color="#000000">Taajamanopeus</font></td>
+		<td align="right" sdval="30" sdnum="1033;"><font color="#000000">30</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="8" sdnum="1033;"><font color="#000000">8</font></td>
+		<td align="right" sdval="6" sdnum="1033;"><font color="#000000">6</font></td>
+		<td align="right" sdval="14" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">14</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="30" sdnum="1033;"><font color="#000000">30</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="8" sdnum="1033;"><font color="#000000">8</font></td>
+		<td align="right" sdval="12" sdnum="1033;"><font color="#000000">12</font></td>
+		<td align="right" sdval="20" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">20</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="30" sdnum="1033;"><font color="#000000">30</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="8" sdnum="1033;"><font color="#000000">8</font></td>
+		<td align="right" sdval="23" sdnum="1033;"><font color="#000000">23</font></td>
+		<td align="right" sdval="31" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">31</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="40" sdnum="1033;"><font color="#000000">40</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="11" sdnum="1033;"><font color="#000000">11</font></td>
+		<td align="right" sdval="7" sdnum="1033;"><font color="#000000">7</font></td>
+		<td align="right" sdval="18" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">18</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="40" sdnum="1033;"><font color="#000000">40</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="11" sdnum="1033;"><font color="#000000">11</font></td>
+		<td align="right" sdval="10" sdnum="1033;"><font color="#000000">10</font></td>
+		<td align="right" sdval="21" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">21</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="40" sdnum="1033;"><font color="#000000">40</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="11" sdnum="1033;"><font color="#000000">11</font></td>
+		<td align="right" sdval="21" sdnum="1033;"><font color="#000000">21</font></td>
+		<td align="right" sdval="32" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">32</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="40" sdnum="1033;"><font color="#000000">40</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="11" sdnum="1033;"><font color="#000000">11</font></td>
+		<td align="right" sdval="41" sdnum="1033;"><font color="#000000">41</font></td>
+		<td align="right" sdval="52" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">52</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="50" sdnum="1033;"><font color="#000000">50</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="14" sdnum="1033;"><font color="#000000">14</font></td>
+		<td align="right" sdval="11" sdnum="1033;"><font color="#000000">11</font></td>
+		<td align="right" sdval="25" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">25</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="50" sdnum="1033;"><font color="#000000">50</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="14" sdnum="1033;"><font color="#000000">14</font></td>
+		<td align="right" sdval="16" sdnum="1033;"><font color="#000000">16</font></td>
+		<td align="right" sdval="30" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">30</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="50" sdnum="1033;"><font color="#000000">50</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="14" sdnum="1033;"><font color="#000000">14</font></td>
+		<td align="right" sdval="32" sdnum="1033;"><font color="#000000">32</font></td>
+		<td align="right" sdval="46" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">46</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="50" sdnum="1033;"><font color="#000000">50</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="14" sdnum="1033;"><font color="#000000">14</font></td>
+		<td align="right" sdval="64" sdnum="1033;"><font color="#000000">64</font></td>
+		<td align="right" sdval="78" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">78</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="60" sdnum="1033;"><font color="#000000">60</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="17" sdnum="1033;"><font color="#000000">17</font></td>
+		<td align="right" sdval="15" sdnum="1033;"><font color="#000000">15</font></td>
+		<td align="right" sdval="32" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">32</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="60" sdnum="1033;"><font color="#000000">60</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="17" sdnum="1033;"><font color="#000000">17</font></td>
+		<td align="right" sdval="23" sdnum="1033;"><font color="#000000">23</font></td>
+		<td align="right" sdval="40" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">40</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="60" sdnum="1033;"><font color="#000000">60</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="17" sdnum="1033;"><font color="#000000">17</font></td>
+		<td align="right" sdval="46" sdnum="1033;"><font color="#000000">46</font></td>
+		<td align="right" sdval="63" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">63</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="60" sdnum="1033;"><font color="#000000">60</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="17" sdnum="1033;"><font color="#000000">17</font></td>
+		<td align="right" sdval="93" sdnum="1033;"><font color="#000000">93</font></td>
+		<td align="right" sdval="110" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">110</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="80" sdnum="1033;"><font color="#000000">80</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="22" sdnum="1033;"><font color="#000000">22</font></td>
+		<td align="right" sdval="27" sdnum="1033;"><font color="#000000">27</font></td>
+		<td align="right" sdval="49" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">49</font></td>
+		</tr>
+	<tr>
+		<td rowspan=12 height="283" align="center" valign=middle bgcolor="#595959" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Maantienopeus&quot;}"><font size=6 color="#000000">Maantienopeus</font></td>
+		<td align="right" sdval="80" sdnum="1033;"><font color="#000000">80</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="22" sdnum="1033;"><font color="#000000">22</font></td>
+		<td align="right" sdval="41" sdnum="1033;"><font color="#000000">41</font></td>
+		<td align="right" sdval="63" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">63</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="80" sdnum="1033;"><font color="#000000">80</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="22" sdnum="1033;"><font color="#000000">22</font></td>
+		<td align="right" sdval="82" sdnum="1033;"><font color="#000000">82</font></td>
+		<td align="right" sdval="104" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">104</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="80" sdnum="1033;"><font color="#000000">80</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="22" sdnum="1033;"><font color="#000000">22</font></td>
+		<td align="right" sdval="165" sdnum="1033;"><font color="#000000">165</font></td>
+		<td align="right" sdval="187" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">187</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="100" sdnum="1033;"><font color="#000000">100</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="28" sdnum="1033;"><font color="#000000">28</font></td>
+		<td align="right" sdval="43" sdnum="1033;"><font color="#000000">43</font></td>
+		<td align="right" sdval="71" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">71</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="100" sdnum="1033;"><font color="#000000">100</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="28" sdnum="1033;"><font color="#000000">28</font></td>
+		<td align="right" sdval="64" sdnum="1033;"><font color="#000000">64</font></td>
+		<td align="right" sdval="92" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">92</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="100" sdnum="1033;"><font color="#000000">100</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="28" sdnum="1033;"><font color="#000000">28</font></td>
+		<td align="right" sdval="129" sdnum="1033;"><font color="#000000">129</font></td>
+		<td align="right" sdval="157" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">157</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="100" sdnum="1033;"><font color="#000000">100</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="28" sdnum="1033;"><font color="#000000">28</font></td>
+		<td align="right" sdval="257" sdnum="1033;"><font color="#000000">257</font></td>
+		<td align="right" sdval="285" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">285</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="120" sdnum="1033;"><font color="#000000">120</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Kuiva&quot;}"><font color="#000000">Kuiva</font></td>
+		<td align="right" sdval="33" sdnum="1033;"><font color="#000000">33</font></td>
+		<td align="right" sdval="62" sdnum="1033;"><font color="#000000">62</font></td>
+		<td align="right" sdval="95" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">95</font></td>
+		</tr>
+	<tr>
+		<td align="right" sdval="120" sdnum="1033;"><font color="#000000">120</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Märkä&quot;}"><font color="#000000">Märkä</font></td>
+		<td align="right" sdval="33" sdnum="1033;"><font color="#000000">33</font></td>
+		<td align="right" sdval="93" sdnum="1033;"><font color="#000000">93</font></td>
+		<td align="right" sdval="126" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">126</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td align="right" sdval="120" sdnum="1033;"><font color="#000000">120</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Luminen&quot;}"><font color="#000000">Luminen</font></td>
+		<td align="right" sdval="33" sdnum="1033;"><font color="#000000">33</font></td>
+		<td align="right" sdval="185" sdnum="1033;"><font color="#000000">185</font></td>
+		<td align="right" sdval="218" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">218</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td align="right" sdval="120" sdnum="1033;"><font color="#000000">120</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Jäinen&quot;}"><font color="#000000">Jäinen</font></td>
+		<td align="right" sdval="33" sdnum="1033;"><font color="#000000">33</font></td>
+		<td align="right" sdval="370" sdnum="1033;"><font color="#000000">370</font></td>
+		<td align="right" sdval="403" sdnum="1033;" data-sheets-formula="=Taul1!RC5+Taul1!RC6"><font color="#000000">403</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="21" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td colspan=9 rowspan=2 align="center" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;Ennustetaan pysähtämisen aika saadun käyrän yhtälön perustella eli y = 0,5014x2 - 6,1522x + 39,432  &amp; R² = 0,6854&quot;}"><font color="#000000">Ennustetaan pysähtämisen aika saadun käyrän yhtälön perustella eli y = 0,5014x2 - 6,1522x + 39,432  &amp; R² = 0,6854</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+	<tr>
+		<td height="20" align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td colspan=8 align="center" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;x on nopeus, y on pysähtämisaika ja R on säädetty tarkuus.&quot;}"><font color="#000000">x on nopeus, y on pysähtämisaika ja R on säädetty tarkuus.</font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+		<td align="left" data-sheets-value="{ &quot;1&quot;: 2, &quot;2&quot;: &quot;&quot;}"><font color="#000000"><br></font></td>
+	</tr>
+</table>
+<!-- ************************************************************************** -->
+</div>
 </body>
+
 </html>
